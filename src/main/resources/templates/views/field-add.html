@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../assets/css/table.css">
+    <link rel="stylesheet" href="../assets/css/layui.css">
+</head>
+<body>
+<div class="" style="margin: 10px 70px 10px 70px;">
+    <button class="layui-btn layui-btn-blue"><i class="layui-icon">&#xe654;</i>新增</button>
+</div>
+<div class="table-wrapper">
+    <table class="fl-table">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>实体变量名</th>
+            <th>表字段名</th>
+            <th>字段类型</th>
+            <th>数据库表名</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+            <td>Content</td>
+            <td>Content</td>
+            <td>Content</td>
+            <td>Content</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div style="margin: 10px 70px 10px 70px;">
+    <div id="page"></div>
+</div>
+</body>
+<script src="../assets/layui.js"></script>
+<script>
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer;
+        //完整功能
+        laypage.render({
+            elem: 'page'
+            ,count: 100
+            ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            ,jump: function(obj){
+                console.log(obj)
+            }
+        });
+
+    });
+</script>
+</html>

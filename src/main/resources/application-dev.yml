@@ -1,0 +1,9 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://localhost/management?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+      username: root
+      password: 123456
