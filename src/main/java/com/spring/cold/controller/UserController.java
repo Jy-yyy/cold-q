@@ -11,25 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class UserController extends BaseController{
-    @Autowired
-    private DpUserService dpUserService;
-
-    @RequestMapping("/register")
-    @ResponseBody
-    public ApiReturn register(DpUser dpUser){
-        if (dpUserService.selectByAccount(dpUser.getAccount())!=null)
-            return ApiReturn.error("账号已存在！");
-        dpUser.setId(IdUtils.uuid());
-        return dpUserService.insert(dpUser)>0? ApiReturn.success("注册成功！"):ApiReturn.error("注册失败！");
-    }
-
-
-    @RequestMapping("/index")
-    public String login(DpUser dpUser){
-        return "index";
-    }
-
+public class UserController {
 
     @RequestMapping("/admin")
     @ResponseBody

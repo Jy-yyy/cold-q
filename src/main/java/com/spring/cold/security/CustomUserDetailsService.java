@@ -1,9 +1,10 @@
 package com.spring.cold.security;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.spring.cold.pojo.DpUser;
 import com.spring.cold.pojo.DpUserRole;
-import com.spring.cold.service.DpUserRoleService;
-import com.spring.cold.service.DpUserService;
+import com.spring.cold.service.imp.DpUserRoleServiceImpl;
+import com.spring.cold.service.imp.DpUserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,14 +22,14 @@ import java.util.List;
 @Service("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
-    private DpUserService dpUserService;
+    private DpUserServiceImpl dpUserService;
     @Autowired
-    private DpUserRoleService dpUserRoleService;
+    private DpUserRoleServiceImpl dpUserRoleService;
 
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        DpUser dpUser = dpUserService.selectByAccount(account);
+        DpUser dpUser = dpUserService.getOne(new QueryWrapper<DpUser>().eq("account",account));
         if (dpUser==null){
             throw new UsernameNotFoundException("用户名不存在");
         }

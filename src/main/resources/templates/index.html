@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
     <link rel="stylesheet" href="assets/css/layui.css">
     <link rel="stylesheet" href="assets/css/admin.css">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
     <title>学习后台</title>
 </head>
 <body class="layui-layout-body">
@@ -43,15 +43,16 @@
                         </a>
                         <dl class="layui-nav-child">
                             <dd><a href="/console">首页</a></dd>
+                            <dd><a href="javascript:void(0)" onclick="loginPlt()">关贸云3.0</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item">
                         <a href="javascript:;">
                             <i class="layui-icon">&#xe857;</i>
-                            <em>学习</em>
+                            <em>日志管理</em>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd><a href="field/1">正则表达式</a></dd>
+                            <dd><a href="field/1">用户登录</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item">
@@ -84,5 +85,24 @@
     </div>
     <script src="assets/layui.js"></script>
     <script src="assets/js/home.js"></script>
+<script>
+    function loginPlt() {
+        $.ajax({
+            url: '/pltmgr',
+            type: 'post',
+            cache: false,
+            success: function (result,status,xhr) {
+                console.log(xhr)
+                var pltMgrWindow=window.open('_blank');
+                pltMgrWindow.location=result;
+                /* $("#lo").attr("href",result);
+                 $("#lo").trigger("click");*/
+            },
+            error: function (data) {
+                $.alertRed('请检查网络连接');
+            }
+        })
+    }
+</script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.spring.cold.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
@@ -12,6 +13,7 @@ public class DpUserRole implements Serializable {
      *
      * @mbggenerated Wed Jun 10 16:48:53 GMT+08:00 2020
      */
+    @TableField(value = "user_id")
     private String userId;
 
     /**
@@ -20,6 +22,7 @@ public class DpUserRole implements Serializable {
      *
      * @mbggenerated Wed Jun 10 16:48:53 GMT+08:00 2020
      */
+    @TableField(value = "role_id")
     private Integer roleId;
 
     /**
@@ -29,6 +32,7 @@ public class DpUserRole implements Serializable {
      * @mbggenerated Wed Jun 10 16:48:53 GMT+08:00 2020
      */
     private static final long serialVersionUID = 1L;
+    @TableField(exist = false)
     private String name;
 
     public String getName() {

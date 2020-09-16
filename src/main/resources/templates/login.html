@@ -1,32 +1,192 @@
 <!DOCTYPE html>
-<html>
-
-<head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="layout/common::common_head(~{::title},~{::link})">
 <meta charset="utf-8" />
-<title>登录</title>
-<link rel="stylesheet" type="text/css" href="assets/css/login.css" />
+<title>y</title>
+	<link rel="stylesheet" href="customize/css/buttonStyle.css">
+	<link rel="stylesheet" href="customize/css/component.css">
+	<link rel="stylesheet" href="customize/css/demo.css">
 </head>
-
-<body>
-
-<img class="bgone" src="assets/images/1.jpg" />
-<img class="pic" src="assets/images/a.png" />
-
-<div class="table">
-	<div class="wel">某某系统后台登录</div>
-	<div class="wel1">MOU MOU XI TONG HUO TAI DENG LU</div>
-	<form action="/login" method="post">
-		<div class="user">
-			<div id="yonghu" style=""><img src="assets/images/yhm.png" /></div>
-			<input type="text" name="account" placeholder="用户名" />
+<style>
+	.app {
+		text-align: center;
+		color: #2c3e50;
+		margin-top: 120px;
+	}
+	.top {
+		position: absolute;
+		right: 20px;
+		width:auto;
+	}
+</style>
+<body style="background-color: #00857E;">
+<div>
+	<div style="display:inline-block">
+		<div class="top">
+			<div class='wrapper' >
+				<div role='button' class='retro-btn warning'>
+					<a class='btn' onclick="showLogin()">
+						<span class='btn-inner'>
+							<span class='content-wrapper'>
+								<span class='btn-content'>
+									<span class='btn-content-inner' label="Login">
+									</span>
+								</span>
+							</span>
+						</span>
+					</a>
+				</div>
+			</div>
+			<div class='wrapper' >
+				<div role='button' class='retro-btn success'>
+					<a class='btn' onclick="showAuthor()" id="author">
+						<span class='btn-inner'>
+							<span class='content-wrapper'>
+								<span class='btn-content'>
+									<span class='btn-content-inner' label="Author">
+									</span>
+								</span>
+							</span>
+						</span>
+					</a>
+				</div>
+			</div>
 		</div>
-		<div class="password">
-			<div id="yonghu"><img src="assets/images/mm.png" /></div>
-			<input type="password" name="password" placeholder="密码"/>
-		</div>
-		<button class="btn" type="submit">登录</button>
-	</form>
+	</div>
+	<div class="app">
+		<canvas width="500" height="500" id="myCanvas"></canvas>
+		<img src="assets/images/money.png" alt=""/>
+	</div>
+</div>
+<div id="loginPage" style="display: none">
+	<div class="logo_box">
+		<h3>欢迎你</h3>
+		<form action="/login" method="post" id="loginForm">
+			<div class="input_outer">
+				<span class="u_user"></span>
+				<input name="account" class="text" type="text" placeholder="请输入账户">
+			</div>
+			<div class="input_outer">
+				<span class="us_uer"></span>
+				<input name="password" class="text" type="password" placeholder="请输入密码">
+			</div>
+			<div class="mb2"><a class="act-but submit" href="javascript:;" style="color: #FFFFFF" onclick="login()">登录</a></div>
+		</form>
+	</div>
 </div>
 
+<div th:replace="layout/common::common_js(~{})">
+</div>
 </body>
+<script src="customize/js/buttonIndex.js"></script>
+<script>
+	var ctx
+	$(document).ready(function(){
+		var myCanvas = document.getElementById('myCanvas');
+		//取到上下文对象  画笔
+		ctx = myCanvas.getContext('2d');
+
+		//画笔颜色 宽度
+		ctx.strokeStyle = '#00ffff';
+		ctx.lineWidth = 17;
+		// 画笔的偏移量和阴影颜色
+		ctx.shadowBlur = 15;
+		ctx.shadowColor = '#00ffff'
+		setInterval(renderTime,40);
+	})
+
+	function renderTime() {
+		//获取当前时间
+		var date = new Date();
+		var today = date.toDateString();
+		var h = date.getHours();
+		var m = date.getMinutes();
+		var s = date.getSeconds();
+		var ms = date.getMilliseconds();
+		var rs = s + (ms/1000);
+		//背景 圆弧（时分秒） 文字时间日期
+
+		//渐变（250，250）中心点 5是半径 300是范围
+		var gradient = ctx.createRadialGradient(250,250,5,250,250,300);
+		//规定渐变颜色 0-1
+		gradient.addColorStop(0,'#00857E');
+		gradient.addColorStop(1,'#00857E');
+		// 将渐变颜色填充到画布
+		ctx.fillStyle = gradient
+		// 填充区域 坐标（0,0）到（500,500）
+		ctx.fillRect(0,0,500,500);
+
+		//开始起点路径
+		ctx.beginPath();
+		// (250,250)是圆心 200是半径 270是度数=起点位置,360 / 12 = 30，30就是每个小时转的度数,减去90度是因为起点在-π/2
+		ctx.arc(250,250,200,deg(270),deg((h * 30) - 90));
+		ctx.stroke();
+
+		ctx.beginPath();
+		// 360 / 60 = 6;
+		ctx.arc(250,250,170,deg(270),deg((m * 6) - 90));
+		ctx.stroke();
+
+		ctx.beginPath();
+		// 360 / 60 = 6;
+		ctx.arc(250,250,140,deg(270),deg((rs * 6) - 90));
+		ctx.stroke();
+		//用画笔画上去
+
+		ctx.font = '25px Helvetica';
+		ctx.fillStyle = 'rgba(0,255,255,1)';
+		ctx.fillText(today,155,250);
+		var h = ('0' + h).slice(-2);
+		var m = ('0' + m).slice(-2);
+		var s = ('0' + s).slice(-2);
+		//当时间为单位数的时候补零
+		ctx.fillText(h + ':' + m + ':' + s + ':' + ms, 175,280);
+	}
+
+
+	// 将角度转成弧度
+	function deg(deg){
+		var f = Math.PI / 180;
+		// π为180度。π/180等于1°只不过把传进来的数字变成度数返回
+		return f * deg;
+	}
+
+	//显示登录弹出层
+	function showLogin() {
+		layer.open({
+			type: 1,
+			title: false,
+			area: ['400px', '340px'],
+			closeBtn: 0,
+			shadeClose: true,
+			skin: 'yourclass',
+			content: $("#loginPage")
+		})
+	}
+
+	//显示作者信息
+	function showAuthor() {
+		layer.tips('<div style="text-align: left;" >\n' +
+				'\t<p>作者：JiangYu</p>\n' +
+				'\t<p>时间：2020.09.10</p>\n' +
+				'\t<p>目的：自研</p>\n' +
+				'</div>', '#author', {
+			tips: 3
+		});
+		/*layer.open({
+			type: 1,
+			title: false,
+			area: ['100px', '100px'],
+			closeBtn: 0,
+			shadeClose: true,
+			skin: 'yourclass',
+			content: $("#authorPage")
+		})*/
+	}
+
+	//登录
+	function login() {
+		$("#loginForm").submit();
+	}
+</script>
 </html>

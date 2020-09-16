@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="assets/css/layui.css">
     <link rel="stylesheet" href="assets/css/view.css"/>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
     <title></title>
     <style>
         .back-div{
@@ -16,15 +17,31 @@
         }
     </style>
 </head>
-<body class="layui-view-body" style="background: url(assets/images/background.jpg) center 70px no-repeat">
+<body class="layui-view-body">
     <div class="layui-content">
         <div class="layui-row layui-col-space20 back-div">
-           <!--<img src="assets/images/background.jpg">-->
+            <p>无</p>
         </div>
     </div>
     <script src="assets/layui.all.js"></script>
     <script>
      var element = layui.element;
+     function loginPlt() {
+         $.ajax({
+             url: '/pltmgr',
+             type: 'post',
+             cache: false,
+             success: function (result) {
+                 var pltMgrWindow=window.open('_blank');
+                 pltMgrWindow.location=result;
+                 /* $("#lo").attr("href",result);
+                  $("#lo").trigger("click");*/
+             },
+             error: function (data) {
+                 $.alertRed('请检查网络连接');
+             }
+         })
+     }
     </script>
 </body>
 </html>
